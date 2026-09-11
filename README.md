@@ -59,6 +59,9 @@ VERIFAI/
 - python-dotenv
 - httpx
 - HTML / CSS / JavaScript
+- SHA-256 fingerprint
+- PyMuPDF
+- CTF writeup
 
 ## Prerequisites
 
