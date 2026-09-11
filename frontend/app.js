@@ -1,4 +1,17 @@
-// VERIFAI Workshop Dashboard Script
+// Universal Previous Page Navigation Helper
+window.navigateBack = function(fallback = 'index.html#app') {
+  const isInternalReferrer = document.referrer && (
+    document.referrer.includes(window.location.host) ||
+    document.referrer.startsWith('file:')
+  );
+  if (isInternalReferrer && window.history.length > 1) {
+    window.history.back();
+  } else if (window.history.length > 1 && !document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = fallback;
+  }
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const dropzone = document.getElementById("dropzone");
@@ -10,6 +23,99 @@ document.addEventListener("DOMContentLoaded", () => {
   const workspaceResults = document.getElementById("workspace-results");
   const btnNewAnalysis = document.getElementById("btn-new-analysis");
 
+  // View Elements & Navigation
+  const viewLanding = document.getElementById("view-landing");
+  const viewMain = document.getElementById("view-main");
+  const btnEnter = document.getElementById("btn-enter");
+  const btnBackEntry = document.getElementById("btn-back-entry");
+  const dynamicHeadlineEl = document.getElementById("dynamic-headline");
+  const dynamicSubtextEl = document.getElementById("dynamic-subtext");
+  const btnShuffleHeadline = document.getElementById("btn-shuffle-headline");
+
+  function showMainView(instant = false) {
+    applyRandomHeadline(false);
+    if (!viewLanding || !viewMain) return;
+    if (instant) {
+      viewLanding.classList.add("hidden");
+      viewMain.classList.remove("hidden");
+    } else {
+      viewLanding.style.opacity = "0";
+      viewLanding.style.transform = "scale(0.96) translateY(-20px)";
+      setTimeout(() => {
+        viewLanding.classList.add("hidden");
+        viewMain.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 350);
+    }
+    window.location.hash = "app";
+  }
+
+  function showLandingView() {
+    if (!viewLanding || !viewMain) return;
+    viewMain.classList.add("hidden");
+    viewLanding.classList.remove("hidden");
+    viewLanding.style.opacity = "1";
+    viewLanding.style.transform = "scale(1) translateY(0)";
+    if (window.location.hash === "#app") {
+      history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+  }
+
+  if (btnEnter) {
+    btnEnter.addEventListener("click", () => showMainView(false));
+  }
+
+  if (btnBackEntry) {
+    btnBackEntry.addEventListener("click", () => {
+      const hasPreviousInternalPage = document.referrer && (
+        document.referrer.includes('scoreboard.html') ||
+        document.referrer.includes('history.html') ||
+        document.referrer.includes('workshop.html')
+      );
+      if (hasPreviousInternalPage && window.history.length > 1) {
+        window.history.back();
+      } else {
+        showLandingView();
+      }
+    });
+  }
+
+  if (window.location.hash === "#app" && viewLanding && viewMain) {
+    showMainView(true);
+  }
+
+  function applyRandomHeadline(animate = false) {
+    const pair = (typeof getRandomHeadline === "function")
+      ? getRandomHeadline()
+      : (window.VERIFAI_HEADLINES ? window.VERIFAI_HEADLINES[0] : null);
+
+    if (!pair || !dynamicHeadlineEl || !dynamicSubtextEl) return;
+
+    if (animate) {
+      dynamicHeadlineEl.style.opacity = "0";
+      dynamicSubtextEl.style.opacity = "0";
+      setTimeout(() => {
+        dynamicHeadlineEl.textContent = pair.headline;
+        dynamicSubtextEl.textContent = pair.subtext;
+        dynamicHeadlineEl.style.opacity = "1";
+        dynamicSubtextEl.style.opacity = "1";
+      }, 200);
+    } else {
+      dynamicHeadlineEl.textContent = pair.headline;
+      dynamicSubtextEl.textContent = pair.subtext;
+    }
+  }
+
+  if (btnShuffleHeadline) {
+    btnShuffleHeadline.addEventListener("click", () => {
+      btnShuffleHeadline.classList.add("rotating");
+      applyRandomHeadline(true);
+      setTimeout(() => {
+        btnShuffleHeadline.classList.remove("rotating");
+      }, 400);
+    });
+  }
+
   // Health check
   checkHealth();
 
@@ -17,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const caseIdParam = urlParams.get("case_id");
   if (caseIdParam) {
+    showMainView(true);
     loadExistingCase(caseIdParam);
   }
 
@@ -332,7 +439,7 @@ function renderCaseResults(caseData) {
     // Non-image or PDF
     sliderBox.style.display = "none";
     singleImg.style.display = "block";
-    singleImg.src = isImage ? origUrl : "/frontend/pdf-placeholder.svg";
+    singleImg.src = isImage ? origUrl : "pdf-placeholder.svg";
   }
 
   // Evidence Trail Accordion

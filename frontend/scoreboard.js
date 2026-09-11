@@ -1,5 +1,20 @@
 // VERIFAI Scoreboard & Leaderboard Controller
 
+// Universal Previous Page Navigation Helper
+window.navigateBack = function(fallback = 'index.html#app') {
+  const isInternalReferrer = document.referrer && (
+    document.referrer.includes(window.location.host) ||
+    document.referrer.startsWith('file:')
+  );
+  if (isInternalReferrer && window.history.length > 1) {
+    window.history.back();
+  } else if (window.history.length > 1 && !document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = fallback;
+  }
+};
+
 let allCases = [];
 let currentFilter = "ALL";
 let searchQuery = "";
@@ -112,7 +127,7 @@ function renderTable() {
           #${idx + 1}
         </td>
         <td>
-          <a href="/frontend/workshop.html?case_id=${c.case_id}" style="color: var(--accent-cyan); text-decoration: none; font-family: var(--font-mono); font-weight: 600;">
+          <a href="workshop.html?case_id=${c.case_id}" style="color: var(--accent-cyan); text-decoration: none; font-family: var(--font-mono); font-weight: 600;">
             ${c.case_id}
           </a>
         </td>
@@ -147,7 +162,7 @@ function renderTable() {
         </td>
         <td>
           <div style="display: flex; gap: 0.4rem;">
-            <a href="/frontend/workshop.html?case_id=${c.case_id}" class="btn btn-primary btn-sm" title="Inspect full evidence trail">
+            <a href="workshop.html?case_id=${c.case_id}" class="btn btn-primary btn-sm" title="Inspect full evidence trail">
               Inspect
             </a>
             <button class="btn btn-outline btn-sm" onclick="openQuickView('${c.case_id}')">
@@ -210,7 +225,7 @@ window.openQuickView = function(caseId) {
 
     <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
       <a href="/api/cases/${caseItem.case_id}/report.pdf" class="btn btn-outline" target="_blank">Download PDF Report</a>
-      <a href="/frontend/workshop.html?case_id=${caseItem.case_id}" class="btn btn-primary">Open Full Workshop Audit</a>
+      <a href="workshop.html?case_id=${caseItem.case_id}" class="btn btn-primary">Open Full Workshop Audit</a>
     </div>
   `;
 

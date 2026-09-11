@@ -4,237 +4,428 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VERIFAI | Digital Forensics & Media Authentication Platform</title>
-  <link rel="stylesheet" href="/frontend/style.css">
-  <style>
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
-    @media (max-width: 900px) {
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .feature-card {
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .feature-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pipeline-preview-card {
-      background: linear-gradient(135deg, rgba(16, 24, 40, 0.9), rgba(13, 19, 34, 0.95));
-      border: 1px solid var(--border-glow);
-      border-radius: var(--radius-xl);
-      padding: 3rem 2rem;
-      margin-bottom: 4rem;
-      box-shadow: 0 20px 50px rgba(6, 182, 212, 0.15);
-    }
-    .cta-banner {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      border-radius: var(--radius-xl);
-      padding: 3.5rem 2rem;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar">
-    <a href="/frontend/index.html" class="brand">
-      <div class="brand-shield">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
+  <!-- ====================================================================
+       VIEW 1: MINIMAL CLEAN FRONT PAGE
+       (Only Web Name, Logo, Enter Button & High-Quality Neon Arch Background)
+       ==================================================================== -->
+  <section class="view-landing" id="view-landing">
+    <div class="landing-container">
+      <!-- LOGO -->
+      <div class="landing-shield-wrapper">
+        <div class="landing-shield-glow"></div>
+        <div class="landing-shield">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
       </div>
-      <span>VERIFAI</span>
-    </a>
 
-    <ul class="nav-links">
-      <li><a href="/frontend/workshop.html" class="nav-link">Workshop</a></li>
-      <li><a href="/frontend/scoreboard.html" class="nav-link">Scoreboard</a></li>
-      <li><a href="/frontend/history.html" class="nav-link">Case History</a></li>
-    </ul>
+      <!-- WEB NAME -->
+      <h1 class="landing-title">VERIFAI</h1>
 
-    <a href="/frontend/workshop.html" class="btn btn-primary btn-sm">
-      Launch Workshop
-    </a>
-  </nav>
+      <!-- ENTER BUTTON -->
+      <div class="btn-enter-wrapper">
+        <div class="btn-enter-pulse-ring"></div>
+        <button class="btn-enter" id="btn-enter" aria-label="Enter VERIFAI Forensic Workshop">
+          <span>ENTER</span>
+          <span class="btn-enter-arrow">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
 
-  <main class="container">
+
+  <!-- ====================================================================
+       VIEW 2: MAIN APPLICATION INTERFACE
+       ==================================================================== -->
+  <div class="view-main hidden" id="view-main">
     
-    <!-- Hero Section -->
-    <section class="hero" style="padding: 3rem 0 2rem 0;">
-      <div class="hero-badge">ENTERPRISE DIGITAL FORENSICS & INTEGRITY AUDITING</div>
-      <h1 class="hero-title" style="max-width: 950px; margin-left: auto; margin-right: auto;">
-        Detect Tampering, Splicing & Synthetic AI Generation with Forensic Precision.
-      </h1>
-      <p class="hero-subtitle">
-        VERIFAI unifies local Error Level Analysis (ELA), EXIF hardware extraction, PDF stream auditing, and Gemini multimodal intelligence into a transparent 8-stage forensic investigation.
-      </p>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="btn-nav-entry" id="btn-back-entry" title="Return to Front Page">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back
+        </button>
 
-      <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <a href="/frontend/workshop.html" class="btn btn-primary" style="padding: 0.85rem 1.85rem; font-size: 1rem;">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Open Investigation Workshop
+        <a href="#app" class="brand">
+          <div class="brand-shield">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <span>VERIFAI</span>
         </a>
-        <a href="/frontend/scoreboard.html" class="btn btn-outline" style="padding: 0.85rem 1.85rem; font-size: 1rem;">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          Threat Scoreboard
-        </a>
       </div>
-    </section>
 
-    <!-- Telemetry Stats Bar -->
-    <div class="glass-panel" style="margin-bottom: 4rem; padding: 1.5rem 2rem;">
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;">
-        <div>
-          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-cyan);">8 Stages</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">CTF Audit Pipeline</div>
-        </div>
-        <div>
-          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-emerald);">Sub-Pixel</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">ELA Differential</div>
-        </div>
-        <div>
-          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-purple);">Gemini 2.5</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Multimodal Neural Vision</div>
-        </div>
-        <div>
-          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-amber);">100% Locked</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Cryptographic Chain</div>
-        </div>
+      <ul class="nav-links">
+        <li><a href="#app" class="nav-link active">Workbench</a></li>
+        <li><a href="scoreboard.html" class="nav-link">Scoreboard</a></li>
+        <li><a href="history.html" class="nav-link">Case History</a></li>
+      </ul>
+
+      <div class="status-pill" id="system-status-pill">
+        <div class="status-dot"></div>
+        <span id="system-status-text">ENGINE ONLINE</span>
       </div>
-    </div>
+    </nav>
 
-    <!-- The Problem Statement -->
-    <div style="text-align: center; margin-bottom: 2.5rem;">
-      <div class="hero-badge">THE TRUST CRISIS IN DIGITAL MEDIA</div>
-      <h2 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">Why Traditional Inspection Fails</h2>
-      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto;">
-        As generative synthesis and professional editing tools evolve, visual inspection alone cannot distinguish authentic records from deliberate forgeries.
-      </p>
-    </div>
+    <main class="container">
 
-    <div class="feature-grid">
-      <div class="glass-panel feature-card">
-        <div class="feature-icon-box" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <!-- Dynamic Headline / Hero Section -->
+      <section class="dynamic-hero-box" id="dynamic-hero-box">
+        <div class="hero-top-meta">
+          <div class="hero-tag">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Forensic Intelligence
+          </div>
+
+          <button class="btn-shuffle" id="btn-shuffle-headline" title="Shuffle copy headline">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Shuffle Tagline
+          </button>
         </div>
-        <h3 style="font-size: 1.25rem;">Diffusion & Neural Deepfakes</h3>
-        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
-          AI image models generate photorealistic portraits and scenery, but leave subtle mathematical artifacts in frequency bands and edge boundaries that our neural scanners isolate.
+
+        <h2 class="dynamic-headline-text" id="dynamic-headline">
+          Is that photo real, or did someone get creative?
+        </h2>
+        <p class="dynamic-subtext" id="dynamic-subtext">
+          Upload it and we'll tell you the truth — no judgment, mostly.
         </p>
-      </div>
+      </section>
 
-      <div class="glass-panel feature-card">
-        <div class="feature-icon-box" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <!-- File Drag & Drop Upload Section -->
+      <section class="dropzone-container" id="upload-section">
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="file-input" style="display: none;" accept=".jpg,.jpeg,.png,.webp,.bmp,.tiff,.tif,.pdf">
+          
+          <div class="dropzone-icon">
+            <svg fill="none" stroke="currentColor" width="36" height="36" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+
+          <h3 class="dropzone-title">Drop Suspect File to Verify Authenticity</h3>
+          <p class="dropzone-sub">Drag and drop any suspicious photo or document, or browse from your device</p>
+          
+          <div class="supported-chips">
+            <span class="chip">JPEG / JPG</span>
+            <span class="chip">PNG</span>
+            <span class="chip">WEBP</span>
+            <span class="chip">PDF DOCUMENT</span>
+          </div>
+
+          <!-- File Selected Preview Banner -->
+          <div class="file-preview-card" id="file-preview-card">
+            <div class="file-preview-info">
+              <div class="file-preview-icon" id="preview-icon">
+                <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="file-preview-name" id="preview-name">photo.jpg</div>
+                <div class="file-preview-meta" id="preview-meta">0 KB • READY</div>
+              </div>
+            </div>
+
+            <div class="file-preview-actions">
+              <button class="btn btn-primary btn-sm" id="btn-analyze-file">
+                Analyze Now ➔
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-buttons">
+            <button class="btn btn-primary" id="btn-browse">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              </svg>
+              Select Evidence File
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('authentic')">
+              📷 Authentic Sample
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('spliced')">
+              ✂️ Spliced Photo
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('ai_generated')">
+              🤖 AI Generated
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('tampered_pdf')">
+              📄 Altered PDF
+            </button>
+          </div>
         </div>
-        <h3 style="font-size: 1.25rem;">Document & PDF Alterations</h3>
-        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
-          Financial invoices and contracts are frequently altered by appending incremental revisions (%%EOF) or injecting form scripts. VERIFAI unpacks full internal stream histories.
-        </p>
-      </div>
+      </section>
 
-      <div class="glass-panel feature-card">
-        <div class="feature-icon-box" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-        </div>
-        <h3 style="font-size: 1.25rem;">Selective Splicing & Cloning</h3>
-        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
-          When an image is cut and pasted, the newly added region carries a different compression history. Our Error Level Analysis (ELA) brings disguised spliced borders to light.
-        </p>
-      </div>
-    </div>
-
-    <!-- 8-Stage Architecture Showcase -->
-    <div class="pipeline-preview-card">
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <span class="chip" style="color: var(--accent-cyan); border-color: rgba(6, 182, 212, 0.3);">END-TO-END PIPELINE</span>
-        <h2 style="font-size: 2rem; margin-top: 0.5rem;">The 8-Stage Forensic Verification Engine</h2>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 01</div>
-          <h4 style="margin: 0.3rem 0;">Cryptographic Ingestion</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Generates immutable SHA-256 and MD5 chain-of-custody digests.</p>
+      <!-- 8-Stage Telemetry Progress Pipeline -->
+      <section class="telemetry-pipeline" id="telemetry-pipeline">
+        <div class="telemetry-header">
+          <span class="telemetry-title">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            Executing 8-Stage Forensic Pipeline
+          </span>
+          <span class="status-pill" id="pipeline-status-badge">PROCESSING</span>
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 02</div>
-          <h4 style="margin: 0.3rem 0;">Metadata & EXIF Correlation</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Extracts camera hardware make, GPS coordinates, and editing software signatures.</p>
+        <div class="pipeline-grid">
+          <div class="pipeline-node" id="node-1">
+            <div class="node-number">STAGE 01</div>
+            <div class="node-name">Hashing</div>
+          </div>
+          <div class="pipeline-node" id="node-2">
+            <div class="node-number">STAGE 02</div>
+            <div class="node-name">EXIF/Meta</div>
+          </div>
+          <div class="pipeline-node" id="node-3">
+            <div class="node-number">STAGE 03</div>
+            <div class="node-name">Container</div>
+          </div>
+          <div class="pipeline-node" id="node-4">
+            <div class="node-number">STAGE 04</div>
+            <div class="node-name">ELA Delta</div>
+          </div>
+          <div class="pipeline-node" id="node-5">
+            <div class="node-number">STAGE 05</div>
+            <div class="node-name">Noise Grid</div>
+          </div>
+          <div class="pipeline-node" id="node-6">
+            <div class="node-number">STAGE 06</div>
+            <div class="node-name">Neural AI</div>
+          </div>
+          <div class="pipeline-node" id="node-7">
+            <div class="node-number">STAGE 07</div>
+            <div class="node-name">IoC Match</div>
+          </div>
+          <div class="pipeline-node" id="node-8">
+            <div class="node-number">STAGE 08</div>
+            <div class="node-name">Verdict</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results / Forensic Verdict Dashboard -->
+      <section class="workspace-results" id="workspace-results">
+        
+        <!-- Verdict Banner -->
+        <div class="verdict-banner" id="verdict-banner">
+          <div class="verdict-meta">
+            <div class="case-pill">
+              <span id="display-case-id">CASE: VERIFAI-00000000</span>
+              <span>•</span>
+              <span id="display-timestamp">2026-00-00 00:00:00 UTC</span>
+            </div>
+            <h2 class="verdict-title" id="display-verdict-title">EVIDENCE VERIFIED</h2>
+            <p style="color: var(--text-secondary); max-width: 650px;" id="display-recommendation">
+              Content demonstrates consistent integrity.
+            </p>
+          </div>
+
+          <div class="score-display-group">
+            <div class="score-gauge">
+              <svg viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="gauge-progress" id="gauge-circle" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+              </svg>
+              <div class="score-value">
+                <div class="score-num" id="display-score-num">0</div>
+                <div class="score-label">RISK INDEX</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 03</div>
-          <h4 style="margin: 0.3rem 0;">Container Stream Inspection</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Audits quantization tables, color profiles, and PDF revisions / JS actions.</p>
+        <!-- Analysis Grid -->
+        <div class="analysis-grid">
+          
+          <!-- Left: Forensic Viewer & ELA Slider -->
+          <div class="glass-panel viewer-card">
+            <div class="viewer-tabs">
+              <button class="tab-btn active" id="tab-split">Split Slider</button>
+              <button class="tab-btn" id="tab-original">Original Evidence</button>
+              <button class="tab-btn" id="tab-ela">ELA Heatmap</button>
+            </div>
+
+            <div class="viewer-stage" id="viewer-stage">
+              <!-- Split Slider Container -->
+              <div class="slider-container" id="slider-box">
+                <img src="" id="slider-orig-img" class="slider-img" alt="Original Evidence">
+                <div class="slider-overlay" id="slider-overlay">
+                  <img src="" id="slider-ela-img" alt="ELA Heatmap">
+                </div>
+                <div class="slider-handle" id="slider-handle">⇄</div>
+              </div>
+              <!-- Single Image View (Fallback for PDF or non-ELA) -->
+              <img src="" id="single-view-img" class="viewer-img" style="display: none;" alt="Single view">
+            </div>
+
+            <input type="range" min="0" max="100" value="50" class="slider-bar-input" id="slider-range" title="Slide to compare Original vs ELA">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+              <span>◀ ELA Difference Heatmap</span>
+              <span>Original Evidence ▶</span>
+            </div>
+          </div>
+
+          <!-- Right: Factor Breakdown, Hashes & Actions -->
+          <div class="glass-panel">
+            <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              Risk Vectors & Integrity Breakdown
+            </h3>
+
+            <div class="factor-breakdown">
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Metadata & EXIF Tampering Risk</span>
+                  <span class="factor-val" id="score-meta">0 / 30</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-meta" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Error Level Analysis (ELA) Compression Delta</span>
+                  <span class="factor-val" id="score-ela">0 / 25</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-ela" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Container Structure & Stream Integrity</span>
+                  <span class="factor-val" id="score-struct">0 / 20</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-struct" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Neural AI / Diffusion Synthesis Marker</span>
+                  <span class="factor-val" id="score-neural">0 / 25</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-neural" style="width: 0%;"></div></div>
+              </div>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-subtle); margin: 1.5rem 0;">
+
+            <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.05em;">
+              Cryptographic Custody Tokens
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem;">
+              <div style="background: rgba(0,0,0,0.4); padding: 0.5rem 0.75rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">SHA256:</span>
+                <span id="hash-sha256" style="color: var(--accent-cyan); word-break: break-all; max-width: 70%;">--</span>
+                <button class="btn btn-outline btn-sm" id="btn-copy-sha256" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">Copy</button>
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 0.5rem 0.75rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">MD5:</span>
+                <span id="hash-md5" style="color: #cbd5e1;">--</span>
+                <button class="btn btn-outline btn-sm" id="btn-copy-md5" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">Copy</button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap;">
+              <a href="#" id="btn-download-pdf" class="btn btn-primary" target="_blank">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Export PDF Report
+              </a>
+              <button class="btn btn-outline" id="btn-new-analysis">
+                Analyze Another File
+              </button>
+            </div>
+          </div>
+
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 04</div>
-          <h4 style="margin: 0.3rem 0;">Error Level Analysis (ELA)</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Differential recompression highlights localized splicing and edits.</p>
+        <!-- Neural AI & Artifacts Inspection Card -->
+        <div class="glass-panel" id="ai-inspection-card" style="margin-bottom: 2rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              Neural Vision & Artifacts Audit
+            </span>
+            <span class="status-pill" id="ai-model-pill" style="font-family: var(--font-mono); font-size: 0.75rem;">GEMINI VISION</span>
+          </h3>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" id="ai-details-grid">
+            <div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Model Assessment</div>
+              <p id="ai-assessment-text" style="font-size: 0.95rem; color: #e2e8f0; line-height: 1.6;">Analyzing neural patterns...</p>
+            </div>
+            <div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Observed Forensic Artifacts</div>
+              <ul id="ai-artifacts-list" class="trail-details-list">
+                <!-- Injected dynamically -->
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 05</div>
-          <h4 style="margin: 0.3rem 0;">Noise Grid & Frequency</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Calculates spatial error variance to detect irregular sensor noise floors.</p>
+        <!-- 8-Stage Evidence Trail -->
+        <div class="glass-panel trail-card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+              </svg>
+              8-Stage Digital Forensics Evidence Trail
+            </span>
+            <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">CTF AUDIT LOG</span>
+          </h3>
+
+          <div id="trail-accordion-list">
+            <!-- Accordion stages dynamically injected -->
+          </div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 06</div>
-          <h4 style="margin: 0.3rem 0;">Multimodal Neural Vision</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Gemini 2.5 scans for lighting anomalies, anatomical glitches, and diffusion cues.</p>
+        <!-- CTF Write-up Section -->
+        <div class="glass-panel">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Case Report / Forensic Write-up
+            </h3>
+            <button class="btn btn-outline btn-sm" id="btn-copy-writeup">Copy Markdown</button>
+          </div>
+          <div class="writeup-container" id="writeup-content"></div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 07</div>
-          <h4 style="margin: 0.3rem 0;">IoC Cross-Examination</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Correlates contradictory signals across all physical and mathematical layers.</p>
-        </div>
+      </section>
 
-        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 08</div>
-          <h4 style="margin: 0.3rem 0;">Verdict & Score Synthesis</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Generates unified 0–100 risk score and complete CTF-style investigative report.</p>
-        </div>
-      </div>
-    </div>
+    </main>
 
-    <!-- Final Call to Action -->
-    <div class="cta-banner">
-      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem;">Begin Your Forensic Investigation</h2>
-      <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.75rem auto;">
-        Drop in any photograph or document to verify authenticity and inspect full evidence trail.
-      </p>
-      <a href="/frontend/workshop.html" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1.05rem;">
-        Launch Workshop Dashboard
-      </a>
-    </div>
+  </div>
 
-  </main>
-
-  <footer style="border-top: 1px solid var(--border-subtle); padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-    <p>VERIFAI Platform v1.0.0 • Digital Forensics & Media Authentication Engine • Built for rigorous evidence auditing</p>
-  </footer>
-
+  <script src="headlines.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

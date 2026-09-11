@@ -4,25 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VERIFAI | Forensic Investigation Workshop</title>
-  <link rel="stylesheet" href="/frontend/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="navbar">
-    <a href="/frontend/index.html" class="brand">
-      <div class="brand-shield">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    <div style="display: flex; align-items: center; gap: 0.85rem;">
+      <button class="btn-nav-entry" onclick="navigateBack('index.html#app')" title="Go to previous page">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-      </div>
-      <span>VERIFAI</span>
-    </a>
+        <span>Back</span>
+      </button>
+
+      <a href="index.html" class="brand">
+        <div class="brand-shield">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <span>VERIFAI</span>
+      </a>
+    </div>
 
     <ul class="nav-links">
-      <li><a href="/frontend/workshop.html" class="nav-link active">Workshop</a></li>
-      <li><a href="/frontend/scoreboard.html" class="nav-link">Scoreboard</a></li>
-      <li><a href="/frontend/history.html" class="nav-link">Case History</a></li>
+      <li><a href="index.html#app" class="nav-link">Workbench</a></li>
+      <li><a href="scoreboard.html" class="nav-link">Scoreboard</a></li>
+      <li><a href="history.html" class="nav-link">Case History</a></li>
     </ul>
 
     <div class="status-pill" id="system-status-pill">
@@ -291,6 +300,6 @@
 
   </main>
 
-  <script src="/frontend/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

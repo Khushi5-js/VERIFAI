@@ -1,5 +1,20 @@
 // VERIFAI Case History Archive Controller
 
+// Universal Previous Page Navigation Helper
+window.navigateBack = function(fallback = 'index.html#app') {
+  const isInternalReferrer = document.referrer && (
+    document.referrer.includes(window.location.host) ||
+    document.referrer.startsWith('file:')
+  );
+  if (isInternalReferrer && window.history.length > 1) {
+    window.history.back();
+  } else if (window.history.length > 1 && !document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = fallback;
+  }
+};
+
 let historyCases = [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -134,7 +149,7 @@ function filterAndRender() {
 
         <!-- Card Actions -->
         <div style="display: flex; gap: 0.5rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem; margin-top: 0.5rem;">
-          <a href="/frontend/workshop.html?case_id=${c.case_id}" class="btn btn-primary btn-sm" style="flex: 1; justify-content: center;">
+          <a href="workshop.html?case_id=${c.case_id}" class="btn btn-primary btn-sm" style="flex: 1; justify-content: center;">
             Reopen Case
           </a>
           <a href="/api/cases/${c.case_id}/report.pdf" class="btn btn-outline btn-sm" target="_blank" title="Download PDF Report">
