@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERIFAI | Digital Forensics & Media Authentication Platform</title>
+  <link rel="stylesheet" href="/frontend/style.css">
+  <style>
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    @media (max-width: 900px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .feature-card {
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pipeline-preview-card {
+      background: linear-gradient(135deg, rgba(16, 24, 40, 0.9), rgba(13, 19, 34, 0.95));
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 20px 50px rgba(6, 182, 212, 0.15);
+    }
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="/frontend/index.html" class="brand">
+      <div class="brand-shield">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      </div>
+      <span>VERIFAI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/frontend/workshop.html" class="nav-link">Workshop</a></li>
+      <li><a href="/frontend/scoreboard.html" class="nav-link">Scoreboard</a></li>
+      <li><a href="/frontend/history.html" class="nav-link">Case History</a></li>
+    </ul>
+
+    <a href="/frontend/workshop.html" class="btn btn-primary btn-sm">
+      Launch Workshop
+    </a>
+  </nav>
+
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 3rem 0 2rem 0;">
+      <div class="hero-badge">ENTERPRISE DIGITAL FORENSICS & INTEGRITY AUDITING</div>
+      <h1 class="hero-title" style="max-width: 950px; margin-left: auto; margin-right: auto;">
+        Detect Tampering, Splicing & Synthetic AI Generation with Forensic Precision.
+      </h1>
+      <p class="hero-subtitle">
+        VERIFAI unifies local Error Level Analysis (ELA), EXIF hardware extraction, PDF stream auditing, and Gemini multimodal intelligence into a transparent 8-stage forensic investigation.
+      </p>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <a href="/frontend/workshop.html" class="btn btn-primary" style="padding: 0.85rem 1.85rem; font-size: 1rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Open Investigation Workshop
+        </a>
+        <a href="/frontend/scoreboard.html" class="btn btn-outline" style="padding: 0.85rem 1.85rem; font-size: 1rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Threat Scoreboard
+        </a>
+      </div>
+    </section>
+
+    <!-- Telemetry Stats Bar -->
+    <div class="glass-panel" style="margin-bottom: 4rem; padding: 1.5rem 2rem;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;">
+        <div>
+          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-cyan);">8 Stages</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">CTF Audit Pipeline</div>
+        </div>
+        <div>
+          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-emerald);">Sub-Pixel</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">ELA Differential</div>
+        </div>
+        <div>
+          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-purple);">Gemini 2.5</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Multimodal Neural Vision</div>
+        </div>
+        <div>
+          <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-amber);">100% Locked</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Cryptographic Chain</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Problem Statement -->
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <div class="hero-badge">THE TRUST CRISIS IN DIGITAL MEDIA</div>
+      <h2 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">Why Traditional Inspection Fails</h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto;">
+        As generative synthesis and professional editing tools evolve, visual inspection alone cannot distinguish authentic records from deliberate forgeries.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="glass-panel feature-card">
+        <div class="feature-icon-box" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h3 style="font-size: 1.25rem;">Diffusion & Neural Deepfakes</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
+          AI image models generate photorealistic portraits and scenery, but leave subtle mathematical artifacts in frequency bands and edge boundaries that our neural scanners isolate.
+        </p>
+      </div>
+
+      <div class="glass-panel feature-card">
+        <div class="feature-icon-box" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 style="font-size: 1.25rem;">Document & PDF Alterations</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
+          Financial invoices and contracts are frequently altered by appending incremental revisions (%%EOF) or injecting form scripts. VERIFAI unpacks full internal stream histories.
+        </p>
+      </div>
+
+      <div class="glass-panel feature-card">
+        <div class="feature-icon-box" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 style="font-size: 1.25rem;">Selective Splicing & Cloning</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6;">
+          When an image is cut and pasted, the newly added region carries a different compression history. Our Error Level Analysis (ELA) brings disguised spliced borders to light.
+        </p>
+      </div>
+    </div>
+
+    <!-- 8-Stage Architecture Showcase -->
+    <div class="pipeline-preview-card">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="chip" style="color: var(--accent-cyan); border-color: rgba(6, 182, 212, 0.3);">END-TO-END PIPELINE</span>
+        <h2 style="font-size: 2rem; margin-top: 0.5rem;">The 8-Stage Forensic Verification Engine</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 01</div>
+          <h4 style="margin: 0.3rem 0;">Cryptographic Ingestion</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Generates immutable SHA-256 and MD5 chain-of-custody digests.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 02</div>
+          <h4 style="margin: 0.3rem 0;">Metadata & EXIF Correlation</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Extracts camera hardware make, GPS coordinates, and editing software signatures.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 03</div>
+          <h4 style="margin: 0.3rem 0;">Container Stream Inspection</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Audits quantization tables, color profiles, and PDF revisions / JS actions.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 04</div>
+          <h4 style="margin: 0.3rem 0;">Error Level Analysis (ELA)</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Differential recompression highlights localized splicing and edits.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 05</div>
+          <h4 style="margin: 0.3rem 0;">Noise Grid & Frequency</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Calculates spatial error variance to detect irregular sensor noise floors.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 06</div>
+          <h4 style="margin: 0.3rem 0;">Multimodal Neural Vision</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Gemini 2.5 scans for lighting anomalies, anatomical glitches, and diffusion cues.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 07</div>
+          <h4 style="margin: 0.3rem 0;">IoC Cross-Examination</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Correlates contradictory signals across all physical and mathematical layers.</p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.8rem;">STAGE 08</div>
+          <h4 style="margin: 0.3rem 0;">Verdict & Score Synthesis</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Generates unified 0–100 risk score and complete CTF-style investigative report.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Call to Action -->
+    <div class="cta-banner">
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem;">Begin Your Forensic Investigation</h2>
+      <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.75rem auto;">
+        Drop in any photograph or document to verify authenticity and inspect full evidence trail.
+      </p>
+      <a href="/frontend/workshop.html" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1.05rem;">
+        Launch Workshop Dashboard
+      </a>
+    </div>
+
+  </main>
+
+  <footer style="border-top: 1px solid var(--border-subtle); padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+    <p>VERIFAI Platform v1.0.0 • Digital Forensics & Media Authentication Engine • Built for rigorous evidence auditing</p>
+  </footer>
+
+</body>
+</html>

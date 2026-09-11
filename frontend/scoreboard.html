@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERIFAI | Forensic Scoreboard & Leaderboard</title>
+  <link rel="stylesheet" href="/frontend/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="/frontend/index.html" class="brand">
+      <div class="brand-shield">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      </div>
+      <span>VERIFAI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/frontend/workshop.html" class="nav-link">Workshop</a></li>
+      <li><a href="/frontend/scoreboard.html" class="nav-link active">Scoreboard</a></li>
+      <li><a href="/frontend/history.html" class="nav-link">Case History</a></li>
+    </ul>
+
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      <span id="scoreboard-total-pill">0 CASES LOGGED</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    
+    <!-- Header -->
+    <header class="hero" style="margin-bottom: 2rem;">
+      <div class="hero-badge">RANKED EVIDENCE AUDIT REPOSITORY</div>
+      <h1 class="hero-title" style="font-size: 2.5rem;">Forensic Threat Leaderboard</h1>
+      <p class="hero-subtitle">
+        Comparative risk ranking of analyzed media assets, flagging anomalies, synthetic diffusion markers, and document tamper events.
+      </p>
+    </header>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="glass-panel kpi-card">
+        <span class="kpi-label">Total Cases Processed</span>
+        <span class="kpi-value" id="kpi-total">0</span>
+      </div>
+      <div class="glass-panel kpi-card">
+        <span class="kpi-label">Verified Authentic</span>
+        <span class="kpi-value" style="color: var(--accent-emerald);" id="kpi-authentic">0</span>
+      </div>
+      <div class="glass-panel kpi-card">
+        <span class="kpi-label">Tampered / Synthetic</span>
+        <span class="kpi-value" style="color: var(--accent-red);" id="kpi-tampered">0</span>
+      </div>
+      <div class="glass-panel kpi-card">
+        <span class="kpi-label">Average Risk Index</span>
+        <span class="kpi-value" style="color: var(--accent-cyan);" id="kpi-avg-score">0</span>
+      </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="glass-panel" style="margin-bottom: 1.5rem; padding: 1.25rem 1.75rem;">
+      <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+        
+        <!-- Search -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 0.5rem 1rem; border-radius: var(--radius-sm); min-width: 320px;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="search-input" placeholder="Search by Case ID, filename, or SHA256..." style="background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 0.88rem; font-family: var(--font-sans);">
+        </div>
+
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+          <button class="tab-btn active" data-filter="ALL">All Cases</button>
+          <button class="tab-btn" data-filter="AUTHENTIC">Authentic</button>
+          <button class="tab-btn" data-filter="SUSPICIOUS">Suspicious</button>
+          <button class="tab-btn" data-filter="HIGH_RISK">High Risk</button>
+          <button class="tab-btn" data-filter="FABRICATED">Fabricated</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <div class="glass-panel" style="padding: 0;">
+      <div class="table-container">
+        <table class="cyber-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Case ID</th>
+              <th>Evidence Subject</th>
+              <th>SHA-256 Digest</th>
+              <th>Risk Score</th>
+              <th>Classification</th>
+              <th>Logged</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="scoreboard-tbody">
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                Loading scoreboard telemetry...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Quick View Modal -->
+  <div class="modal-backdrop" id="quick-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div id="modal-body">
+        <!-- Content will be injected -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/scoreboard.js"></script>
+</body>
+</html>
