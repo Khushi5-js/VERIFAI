@@ -71,11 +71,17 @@
         </a>
       </div>
 
-      <ul class="nav-links">
-        <li><a href="#app" class="nav-link active">Workbench</a></li>
-        <li><a href="scoreboard.html" class="nav-link">Scoreboard</a></li>
-        <li><a href="history.html" class="nav-link">Case History</a></li>
-      </ul>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <ul class="nav-links">
+          <li><a href="#app" class="nav-link active">Workbench</a></li>
+          <li><a href="scoreboard.html" class="nav-link">Scoreboard</a></li>
+          <li><a href="history.html" class="nav-link">Case History</a></li>
+        </ul>
+        <div id="backend-status-pill" class="status-pill" style="cursor: pointer;" title="Backend Connection Status - Click to inspect or configure API URL">
+          <div class="status-dot" id="backend-status-dot" style="background: #eab308;"></div>
+          <span id="backend-status-text" style="font-size: 0.75rem;">Connecting...</span>
+        </div>
+      </div>
 
     </nav>
 
@@ -379,6 +385,7 @@
 
   </div>
 
+  <script src="config.js"></script>
   <script src="headlines.js"></script>
   <script src="app.js"></script>
 </body>

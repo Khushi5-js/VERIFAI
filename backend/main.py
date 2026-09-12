@@ -39,10 +39,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS
+# CORS configuration (supports localhost, Vercel deployments, and custom domains)
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*").strip()
+if allowed_origins_env == "*":
+    origins = ["*"]
+else:
+    origins = [orig.strip() for orig in allowed_origins_env.split(",") if orig.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
+    allow_origin_regex=r"https://.*\.vercel\.app" if origins == ["*"] else None,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,7 +57,8 @@ app.add_middleware(
 
 # Mount statics
 app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
-app.mount("/frontend", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
+if FRONTEND_DIR.exists():
+    app.mount("/frontend", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 
 
 def load_cases() -> List[Dict[str, Any]]:
@@ -118,7 +126,16 @@ def execute_pipeline(file_path: Path, original_filename: str) -> Dict[str, Any]:
 
 @app.get("/")
 async def root():
-    return RedirectResponse(url="/frontend/index.html")
+    if FRONTEND_DIR.exists() and (FRONTEND_DIR / "index.html").exists():
+        return RedirectResponse(url="/frontend/index.html")
+    return {
+        "status": "operational",
+        "app": "VERIFAI Digital Forensics API",
+        "version": "1.0.0",
+        "message": "VERIFAI backend engine is running on Render.",
+        "health": "/api/health",
+        "docs": "/docs"
+    }
 
 
 @app.get("/api/health")
@@ -286,3 +303,10 @@ async def download_case_pdf(case_id: str):
         filename=f"{case_id}_Forensic_Report.pdf",
         media_type="application/pdf"
     )
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    host = os.environ.get("HOST", "0.0.0.0")
+    uvicorn.run("main:app", host=host, port=port, reload=False)

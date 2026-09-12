@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchHistory() {
   try {
-    const res = await fetch("/api/cases");
+    const res = await fetch(window.getApiUrl("/api/cases"));
     if (!res.ok) throw new Error("Failed to load cases");
     historyCases = await res.json();
 
@@ -92,7 +92,7 @@ function filterAndRender() {
     const color = risk.color || "#06b6d4";
     const local = c.local_forensics || {};
     const isImage = local.file_type === "image";
-    const thumbUrl = isImage ? c.file_url : "";
+    const thumbUrl = isImage ? window.getAssetUrl(c.file_url) : "";
     const sizeStr = local.hashes?.size_formatted || "Unknown size";
     const sha256 = local.hashes?.sha256 || "N/A";
     const shortSha = sha256.length > 16 ? `${sha256.substring(0, 10)}...` : sha256;
@@ -152,7 +152,7 @@ function filterAndRender() {
           <a href="workshop.html?case_id=${c.case_id}" class="btn btn-primary btn-sm" style="flex: 1; justify-content: center;">
             Reopen Case
           </a>
-          <a href="/api/cases/${c.case_id}/report.pdf" class="btn btn-outline btn-sm" target="_blank" title="Download PDF Report">
+          <a href="${window.getApiUrl(`/api/cases/${c.case_id}/report.pdf`)}" class="btn btn-outline btn-sm" target="_blank" title="Download PDF Report">
             PDF
           </a>
           <button class="btn btn-outline btn-sm" onclick="deleteCaseRecord('${c.case_id}')" style="color: var(--accent-red);" title="Delete Record">
@@ -171,7 +171,7 @@ window.deleteCaseRecord = async function(caseId) {
     return;
   }
   try {
-    const res = await fetch(`/api/cases/${caseId}`, { method: "DELETE" });
+    const res = await fetch(window.getApiUrl(`/api/cases/${caseId}`), { method: "DELETE" });
     if (!res.ok) throw new Error("Delete failed");
     historyCases = historyCases.filter(c => c.case_id !== caseId);
     filterAndRender();

@@ -199,17 +199,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function checkHealth() {
+  const statusDot = document.getElementById("backend-status-dot");
+  const statusText = document.getElementById("backend-status-text");
+  const statusPill = document.getElementById("backend-status-pill");
+
+  if (statusPill && !statusPill.dataset.configured) {
+    statusPill.dataset.configured = "true";
+    statusPill.onclick = () => {
+      const current = window.VERIFAI_API_BASE || "";
+      const input = prompt(
+        "VERIFAI Backend Connection Settings\n\nCurrent Backend URL: " + (current || "(relative / vercel.json proxy)") +
+        "\n\nTo connect directly to your Render backend, paste your Render URL (e.g. https://verifai-backend.onrender.com) or leave blank for default:",
+        current
+      );
+      if (input !== null) {
+        const cleaned = input.trim().replace(/\/+$/, "");
+        localStorage.setItem("VERIFAI_API_BASE", cleaned);
+        window.VERIFAI_API_BASE = cleaned;
+        location.reload();
+      }
+    };
+  }
+
   try {
-    const res = await fetch("/api/health");
+    const res = await fetch(window.getApiUrl("/api/health"));
     if (res.ok) {
       const data = await res.json();
-      const statusText = document.getElementById("system-status-text");
-      if (statusText) {
-        statusText.textContent = "";
-      }
+      if (statusDot) statusDot.style.background = "#22c55e"; // green
+      if (statusText) statusText.textContent = "Backend Active";
+      const oldStatus = document.getElementById("system-status-text");
+      if (oldStatus) oldStatus.textContent = "";
+    } else {
+      if (statusDot) statusDot.style.background = "#ef4444"; // red
+      if (statusText) statusText.textContent = "Backend Error";
     }
   } catch (err) {
     console.warn("Health check error:", err);
+    if (statusDot) statusDot.style.background = "#eab308"; // yellow
+    if (statusText) statusText.textContent = "Render Waking Up...";
   }
 }
 
@@ -231,7 +258,7 @@ async function handleFileUpload(file) {
   formData.append("file", file);
 
   try {
-    const response = await fetch("/api/verify", {
+    const response = await fetch(window.getApiUrl("/api/verify"), {
       method: "POST",
       body: formData
     });
@@ -270,7 +297,7 @@ window.loadDemoSample = async function(sampleId) {
   startPipelineAnimation();
 
   try {
-    const response = await fetch(`/api/verify-demo/${sampleId}`, {
+    const response = await fetch(window.getApiUrl(`/api/verify-demo/${sampleId}`), {
       method: "POST"
     });
 
@@ -294,7 +321,7 @@ window.loadDemoSample = async function(sampleId) {
 
 async function loadExistingCase(caseId) {
   try {
-    const res = await fetch(`/api/cases/${caseId}`);
+    const res = await fetch(window.getApiUrl(`/api/cases/${caseId}`));
     if (!res.ok) throw new Error("Case not found");
     const caseData = await res.json();
     document.getElementById("upload-section").style.display = "none";
@@ -415,13 +442,13 @@ function renderCaseResults(caseData) {
   // PDF Download Link
   const btnPdf = document.getElementById("btn-download-pdf");
   if (btnPdf) {
-    btnPdf.href = `/api/cases/${caseData.case_id}/report.pdf`;
+    btnPdf.href = window.getApiUrl(`/api/cases/${caseData.case_id}/report.pdf`);
   }
 
   // Images setup
   const isImage = local.file_type === "image";
-  const origUrl = caseData.file_url;
-  const elaUrl = ela.ela_image_url || origUrl;
+  const origUrl = window.getAssetUrl(caseData.file_url);
+  const elaUrl = window.getAssetUrl(ela.ela_image_url || origUrl);
 
   const sliderBox = document.getElementById("slider-box");
   const singleImg = document.getElementById("single-view-img");

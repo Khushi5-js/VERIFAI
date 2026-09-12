@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchScoreboard() {
   try {
-    const res = await fetch("/api/scoreboard");
+    const res = await fetch(window.getApiUrl("/api/scoreboard"));
     if (!res.ok) throw new Error("Failed to fetch scoreboard");
     const data = await res.json();
 
@@ -207,13 +207,13 @@ window.openQuickView = function(caseId) {
       <div>
         <h4 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Original Subject</h4>
         <div style="background: #000; border-radius: var(--radius-sm); height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-          <img src="${caseItem.file_url}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+          <img src="${window.getAssetUrl(caseItem.file_url)}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         </div>
       </div>
       <div>
         <h4 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">ELA Error Heatmap</h4>
         <div style="background: #000; border-radius: var(--radius-sm); height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-          ${ela.ela_performed ? `<img src="${ela.ela_image_url}" style="max-width: 100%; max-height: 100%; object-fit: contain;">` : '<span style="color: var(--text-muted); font-size: 0.85rem;">ELA not applicable</span>'}
+          ${ela.ela_performed ? `<img src="${window.getAssetUrl(ela.ela_image_url)}" style="max-width: 100%; max-height: 100%; object-fit: contain;">` : '<span style="color: var(--text-muted); font-size: 0.85rem;">ELA not applicable</span>'}
         </div>
       </div>
     </div>
@@ -224,7 +224,7 @@ window.openQuickView = function(caseId) {
     </div>
 
     <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-      <a href="/api/cases/${caseItem.case_id}/report.pdf" class="btn btn-outline" target="_blank">Download PDF Report</a>
+      <a href="${window.getApiUrl(`/api/cases/${caseItem.case_id}/report.pdf`)}" class="btn btn-outline" target="_blank">Download PDF Report</a>
       <a href="workshop.html?case_id=${caseItem.case_id}" class="btn btn-primary">Open Full Workshop Audit</a>
     </div>
   `;
