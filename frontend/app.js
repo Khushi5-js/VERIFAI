@@ -205,7 +205,7 @@ async function checkHealth() {
       const data = await res.json();
       const statusText = document.getElementById("system-status-text");
       if (statusText) {
-        statusText.textContent = data.gemini_configured ? "ENGINE ONLINE (AI ACTIVE)" : "ENGINE ONLINE (HEURISTIC)";
+        statusText.textContent = "";
       }
     }
   } catch (err) {
