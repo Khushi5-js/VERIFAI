@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERIFAI | Digital Forensics & Media Authentication Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ====================================================================
+       VIEW 1: MINIMAL CLEAN FRONT PAGE
+       (Only Web Name, Logo, Enter Button & High-Quality Neon Arch Background)
+       ==================================================================== -->
+  <section class="view-landing" id="view-landing">
+    <div class="landing-container">
+      <!-- LOGO -->
+      <div class="landing-shield-wrapper">
+        <div class="landing-shield-glow"></div>
+        <div class="landing-shield">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- WEB NAME -->
+      <h1 class="landing-title">VERIFAI</h1>
+
+      <!-- ENTER BUTTON -->
+      <div class="btn-enter-wrapper">
+        <div class="btn-enter-pulse-ring"></div>
+        <button class="btn-enter" id="btn-enter" aria-label="Enter VERIFAI Forensic Workshop">
+          <span>ENTER</span>
+          <span class="btn-enter-arrow">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================================================================
+       VIEW 2: MAIN APPLICATION INTERFACE
+       ==================================================================== -->
+  <div class="view-main hidden" id="view-main">
+    
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="btn-nav-entry" id="btn-back-entry" title="Return to Front Page">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back
+        </button>
+
+        <a href="index.html" class="brand">
+          <div class="brand-shield">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <span>VERIFAI</span>
+        </a>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <ul class="nav-links">
+          <li><a href="#app" class="nav-link active">Workbench</a></li>
+          <li><a href="scoreboard.html" class="nav-link">Scoreboard</a></li>
+          <li><a href="history.html" class="nav-link">Case History</a></li>
+        </ul>
+        <div id="backend-status-pill" class="status-pill" style="cursor: pointer;" title="Backend Connection Status - Click to inspect or configure API URL">
+          <div class="status-dot" id="backend-status-dot" style="background: #eab308;"></div>
+          <span id="backend-status-text" style="font-size: 0.75rem;">Connecting...</span>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="container">
+
+      <!-- Dynamic Headline / Hero Section -->
+      <section class="dynamic-hero-box" id="dynamic-hero-box">
+        <h2 class="dynamic-headline-text" id="dynamic-headline">
+          Is that photo real, or did someone get creative?
+        </h2>
+        <p class="dynamic-subtext" id="dynamic-subtext">
+          Upload it and we'll tell you the truth — no judgment, mostly.
+        </p>
+      </section>
+
+      <!-- File Drag & Drop Upload Section -->
+      <section class="dropzone-container" id="upload-section">
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="file-input" style="display: none;" accept=".jpg,.jpeg,.png,.webp,.bmp,.tiff,.tif,.pdf">
+          
+          <div class="dropzone-icon">
+            <svg fill="none" stroke="currentColor" width="36" height="36" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+
+          <h3 class="dropzone-title">Drop Suspect File to Verify Authenticity</h3>
+          <p class="dropzone-sub">Drag and drop any suspicious photo or document, or browse from your device</p>
+          
+          <div class="supported-chips">
+            <span class="chip">JPEG / JPG</span>
+            <span class="chip">PNG</span>
+            <span class="chip">WEBP</span>
+            <span class="chip">PDF DOCUMENT</span>
+          </div>
+
+          <!-- File Selected Preview Banner -->
+          <div class="file-preview-card" id="file-preview-card">
+            <div class="file-preview-info">
+              <div class="file-preview-icon" id="preview-icon">
+                <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="file-preview-name" id="preview-name">photo.jpg</div>
+                <div class="file-preview-meta" id="preview-meta">0 KB • READY</div>
+              </div>
+            </div>
+
+            <div class="file-preview-actions">
+              <button class="btn btn-primary btn-sm" id="btn-analyze-file">
+                Analyze Now ➔
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-buttons">
+            <button class="btn btn-primary" id="btn-browse">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              </svg>
+              Select Evidence File
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('authentic')">
+              📷 Authentic Sample
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('spliced')">
+              ✂️ Spliced Photo
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('ai_generated')">
+              🤖 AI Generated
+            </button>
+            <button class="btn btn-outline" onclick="loadDemoSample('tampered_pdf')">
+              📄 Altered PDF
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8-Stage Telemetry Progress Pipeline -->
+      <section class="telemetry-pipeline" id="telemetry-pipeline">
+        <div class="telemetry-header">
+          <span class="telemetry-title">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            Executing 8-Stage Forensic Pipeline
+          </span>
+          <span class="status-pill" id="pipeline-status-badge">PROCESSING</span>
+        </div>
+
+        <div class="pipeline-grid">
+          <div class="pipeline-node" id="node-1">
+            <div class="node-number">STAGE 01</div>
+            <div class="node-name">Hashing</div>
+          </div>
+          <div class="pipeline-node" id="node-2">
+            <div class="node-number">STAGE 02</div>
+            <div class="node-name">EXIF/Meta</div>
+          </div>
+          <div class="pipeline-node" id="node-3">
+            <div class="node-number">STAGE 03</div>
+            <div class="node-name">Container</div>
+          </div>
+          <div class="pipeline-node" id="node-4">
+            <div class="node-number">STAGE 04</div>
+            <div class="node-name">ELA Delta</div>
+          </div>
+          <div class="pipeline-node" id="node-5">
+            <div class="node-number">STAGE 05</div>
+            <div class="node-name">Noise Grid</div>
+          </div>
+          <div class="pipeline-node" id="node-6">
+            <div class="node-number">STAGE 06</div>
+            <div class="node-name">Neural AI</div>
+          </div>
+          <div class="pipeline-node" id="node-7">
+            <div class="node-number">STAGE 07</div>
+            <div class="node-name">IoC Match</div>
+          </div>
+          <div class="pipeline-node" id="node-8">
+            <div class="node-number">STAGE 08</div>
+            <div class="node-name">Verdict</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results / Forensic Verdict Dashboard -->
+      <section class="workspace-results" id="workspace-results">
+        
+        <!-- Verdict Banner -->
+        <div class="verdict-banner" id="verdict-banner">
+          <div class="verdict-meta">
+            <div class="case-pill">
+              <span id="display-case-id">CASE: VERIFAI-00000000</span>
+              <span>•</span>
+              <span id="display-timestamp">2026-00-00 00:00:00 UTC</span>
+            </div>
+            <h2 class="verdict-title" id="display-verdict-title">EVIDENCE VERIFIED</h2>
+            <p style="color: var(--text-secondary); max-width: 650px;" id="display-recommendation">
+              Content demonstrates consistent integrity.
+            </p>
+          </div>
+
+          <div class="score-display-group">
+            <div class="score-gauge">
+              <svg viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="gauge-progress" id="gauge-circle" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+              </svg>
+              <div class="score-value">
+                <div class="score-num" id="display-score-num">0</div>
+                <div class="score-label">RISK INDEX</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Grid -->
+        <div class="analysis-grid">
+          
+          <!-- Left: Forensic Viewer & ELA Slider -->
+          <div class="glass-panel viewer-card">
+            <div class="viewer-tabs">
+              <button class="tab-btn active" id="tab-split">Split Slider</button>
+              <button class="tab-btn" id="tab-original">Original Evidence</button>
+              <button class="tab-btn" id="tab-ela">ELA Heatmap</button>
+            </div>
+
+            <div class="viewer-stage" id="viewer-stage">
+              <!-- Split Slider Container -->
+              <div class="slider-container" id="slider-box">
+                <img src="" id="slider-orig-img" class="slider-img" alt="Original Evidence">
+                <div class="slider-overlay" id="slider-overlay">
+                  <img src="" id="slider-ela-img" alt="ELA Heatmap">
+                </div>
+                <div class="slider-handle" id="slider-handle">⇄</div>
+              </div>
+              <!-- Single Image View (Fallback for PDF or non-ELA) -->
+              <img src="" id="single-view-img" class="viewer-img" style="display: none;" alt="Single view">
+            </div>
+
+            <input type="range" min="0" max="100" value="50" class="slider-bar-input" id="slider-range" title="Slide to compare Original vs ELA">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+              <span>◀ ELA Difference Heatmap</span>
+              <span>Original Evidence ▶</span>
+            </div>
+          </div>
+
+          <!-- Right: Factor Breakdown, Hashes & Actions -->
+          <div class="glass-panel">
+            <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              Risk Vectors & Integrity Breakdown
+            </h3>
+
+            <div class="factor-breakdown">
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Metadata & EXIF Tampering Risk</span>
+                  <span class="factor-val" id="score-meta">0 / 30</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-meta" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Error Level Analysis (ELA) Compression Delta</span>
+                  <span class="factor-val" id="score-ela">0 / 25</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-ela" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Container Structure & Stream Integrity</span>
+                  <span class="factor-val" id="score-struct">0 / 20</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-struct" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="factor-item">
+                <div class="factor-meta">
+                  <span class="factor-name">Neural AI / Diffusion Synthesis Marker</span>
+                  <span class="factor-val" id="score-neural">0 / 25</span>
+                </div>
+                <div class="factor-bar-bg"><div class="factor-bar-fill" id="bar-neural" style="width: 0%;"></div></div>
+              </div>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-subtle); margin: 1.5rem 0;">
+
+            <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.05em;">
+              Cryptographic Custody Tokens
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem;">
+              <div style="background: rgba(0,0,0,0.4); padding: 0.5rem 0.75rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">SHA256:</span>
+                <span id="hash-sha256" style="color: var(--accent-cyan); word-break: break-all; max-width: 70%;">--</span>
+                <button class="btn btn-outline btn-sm" id="btn-copy-sha256" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">Copy</button>
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 0.5rem 0.75rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">MD5:</span>
+                <span id="hash-md5" style="color: #cbd5e1;">--</span>
+                <button class="btn btn-outline btn-sm" id="btn-copy-md5" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">Copy</button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap;">
+              <a href="#" id="btn-download-pdf" class="btn btn-primary" target="_blank">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Export PDF Report
+              </a>
+              <button class="btn btn-outline" id="btn-new-analysis">
+                Analyze Another File
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 8-Stage Evidence Trail -->
+        <div class="glass-panel trail-card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+              </svg>
+              8-Stage Digital Forensics Evidence Trail
+            </span>
+            <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">CTF AUDIT LOG</span>
+          </h3>
+
+          <div id="trail-accordion-list">
+            <!-- Accordion stages dynamically injected -->
+          </div>
+        </div>
+
+        <!-- CTF Write-up Section -->
+        <div class="glass-panel">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Case Report / Forensic Write-up
+            </h3>
+            <button class="btn btn-outline btn-sm" id="btn-copy-writeup">Copy Markdown</button>
+          </div>
+          <div class="writeup-container" id="writeup-content"></div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="headlines.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+// Universal Previous Page Navigation Helper
+window.navigateBack = function(fallback = 'index.html#app') {
+  const isInternalReferrer = document.referrer && (
+    document.referrer.includes(window.location.host) ||
+    document.referrer.startsWith('file:')
+  );
+  if (isInternalReferrer && window.history.length > 1) {
+    window.history.back();
+  } else if (window.history.length > 1 && !document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = fallback;
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("file-input");
+  const btnBrowse = document.getElementById("btn-browse");
+  const uploadSection = document.getElementById("upload-section");
+  const telemetryPipeline = document.getElementById("telemetry-pipeline");
+  const pipelineStatusBadge = document.getElementById("pipeline-status-badge");
+  const workspaceResults = document.getElementById("workspace-results");
+  const btnNewAnalysis = document.getElementById("btn-new-analysis");
+
+  // View Elements & Navigation
+  const viewLanding = document.getElementById("view-landing");
+  const viewMain = document.getElementById("view-main");
+  const btnEnter = document.getElementById("btn-enter");
+  const btnBackEntry = document.getElementById("btn-back-entry");
+  const dynamicHeadlineEl = document.getElementById("dynamic-headline");
+  const dynamicSubtextEl = document.getElementById("dynamic-subtext");
+  const btnShuffleHeadline = document.getElementById("btn-shuffle-headline");
+
+  function showMainView(instant = false) {
+    applyRandomHeadline(false);
+    if (!viewLanding || !viewMain) return;
+    if (instant) {
+      viewLanding.classList.add("hidden");
+      viewMain.classList.remove("hidden");
+    } else {
+      viewLanding.style.opacity = "0";
+      viewLanding.style.transform = "scale(0.96) translateY(-20px)";
+      setTimeout(() => {
+        viewLanding.classList.add("hidden");
+        viewMain.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 350);
+    }
+    window.location.hash = "app";
+  }
+
+  function showLandingView() {
+    if (!viewLanding || !viewMain) return;
+    viewMain.classList.add("hidden");
+    viewLanding.classList.remove("hidden");
+    viewLanding.style.opacity = "1";
+    viewLanding.style.transform = "scale(1) translateY(0)";
+    if (window.location.hash === "#app") {
+      history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+  }
+
+  if (btnEnter) {
+    btnEnter.addEventListener("click", () => showMainView(false));
+  }
+
+  if (btnBackEntry) {
+    btnBackEntry.addEventListener("click", () => {
+      const hasPreviousInternalPage = document.referrer && (
+        document.referrer.includes('scoreboard.html') ||
+        document.referrer.includes('history.html') ||
+        document.referrer.includes('workshop.html')
+      );
+      if (hasPreviousInternalPage && window.history.length > 1) {
+        window.history.back();
+      } else {
+        showLandingView();
+      }
+    });
+  }
+
+  if (window.location.hash === "#app" && viewLanding && viewMain) {
+    showMainView(true);
+  }
+
+  function applyRandomHeadline(animate = false) {
+    const pair = (typeof getRandomHeadline === "function")
+      ? getRandomHeadline()
+      : (window.VERIFAI_HEADLINES ? window.VERIFAI_HEADLINES[0] : null);
+
+    if (!pair || !dynamicHeadlineEl || !dynamicSubtextEl) return;
+
+    if (animate) {
+      dynamicHeadlineEl.style.opacity = "0";
+      dynamicSubtextEl.style.opacity = "0";
+      setTimeout(() => {
+        dynamicHeadlineEl.textContent = pair.headline;
+        dynamicSubtextEl.textContent = pair.subtext;
+        dynamicHeadlineEl.style.opacity = "1";
+        dynamicSubtextEl.style.opacity = "1";
+      }, 200);
+    } else {
+      dynamicHeadlineEl.textContent = pair.headline;
+      dynamicSubtextEl.textContent = pair.subtext;
+    }
+  }
+
+  if (btnShuffleHeadline) {
+    btnShuffleHeadline.addEventListener("click", () => {
+      btnShuffleHeadline.classList.add("rotating");
+      applyRandomHeadline(true);
+      setTimeout(() => {
+        btnShuffleHeadline.classList.remove("rotating");
+      }, 400);
+    });
+  }
+
+  // Health check
+  checkHealth();
+
+  // Check if case_id passed in URL query param
+  const urlParams = new URLSearchParams(window.location.search);
+  const caseIdParam = urlParams.get("case_id");
+  if (caseIdParam) {
+    showMainView(true);
+    loadExistingCase(caseIdParam);
+  }
+
+  // Browse button trigger
+  if (btnBrowse && fileInput) {
+    btnBrowse.addEventListener("click", (e) => {
+      e.stopPropagation();
+      fileInput.click();
+    });
+  }
+
+  if (dropzone && fileInput) {
+    dropzone.addEventListener("click", () => fileInput.click());
+
+    // Drag & Drop events
+    ["dragenter", "dragover"].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        handleFileUpload(files[0]);
+      }
+    });
+
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileUpload(fileInput.files[0]);
+      }
+    });
+  }
+
+  if (btnNewAnalysis) {
+    btnNewAnalysis.addEventListener("click", () => {
+      workspaceResults.style.display = "none";
+      telemetryPipeline.style.display = "none";
+      uploadSection.style.display = "block";
+      fileInput.value = "";
+      window.history.replaceState({}, document.title, window.location.pathname);
+    });
+  }
+
+  // Setup viewer tabs
+  setupViewerTabs();
+
+  // Setup split slider
+  setupSplitSlider();
+
+  // Setup copy writeup button
+  const btnCopy = document.getElementById("btn-copy-writeup");
+  if (btnCopy) {
+    btnCopy.addEventListener("click", () => {
+      const text = document.getElementById("writeup-content").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btnCopy.textContent;
+        btnCopy.textContent = "Copied!";
+        setTimeout(() => { btnCopy.textContent = orig; }, 2000);
+      });
+    });
+  }
+});
+
+
+async function checkHealth() {
+  const statusDot = document.getElementById("backend-status-dot");
+  const statusText = document.getElementById("backend-status-text");
+  const statusPill = document.getElementById("backend-status-pill");
+
+  if (statusPill && !statusPill.dataset.configured) {
+    statusPill.dataset.configured = "true";
+    statusPill.onclick = () => {
+      const current = window.VERIFAI_API_BASE || "";
+      const input = prompt(
+        "VERIFAI Backend Connection Settings\n\nCurrent Backend URL: " + (current || "(relative / vercel.json proxy)") +
+        "\n\nTo connect directly to your Render backend, paste your Render URL (e.g. https://verifai-backend.onrender.com) or leave blank for default:",
+        current
+      );
+      if (input !== null) {
+        const cleaned = input.trim().replace(/\/+$/, "");
+        localStorage.setItem("VERIFAI_API_BASE", cleaned);
+        window.VERIFAI_API_BASE = cleaned;
+        location.reload();
+      }
+    };
+  }
+
+  try {
+    const res = await fetch(window.getApiUrl("/api/health"));
+    if (res.ok) {
+      const data = await res.json();
+      if (statusDot) statusDot.style.background = "#22c55e"; // green
+      if (statusText) statusText.textContent = "Backend Active";
+      const oldStatus = document.getElementById("system-status-text");
+      if (oldStatus) oldStatus.textContent = "";
+    } else {
+      if (statusDot) statusDot.style.background = "#ef4444"; // red
+      if (statusText) statusText.textContent = "Backend Error";
+    }
+  } catch (err) {
+    console.warn("Health check error:", err);
+    if (statusDot) statusDot.style.background = "#eab308"; // yellow
+    if (statusText) statusText.textContent = "Render Waking Up...";
+  }
+}
+
+
+async function handleFileUpload(file) {
+  const uploadSection = document.getElementById("upload-section");
+  const telemetryPipeline = document.getElementById("telemetry-pipeline");
+  const workspaceResults = document.getElementById("workspace-results");
+
+  // Show telemetry and hide upload section
+  uploadSection.style.display = "none";
+  telemetryPipeline.style.display = "block";
+  workspaceResults.style.display = "none";
+
+  // Animate stages
+  startPipelineAnimation();
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch(window.getApiUrl("/api/verify"), {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error(`Analysis failed with status ${response.status}`);
+    }
+
+    const caseData = await response.json();
+
+    // Finish pipeline animation
+    completePipelineAnimation(caseData);
+
+    // Render results after small delay for dramatic forensic presentation
+    setTimeout(() => {
+      renderCaseResults(caseData);
+    }, 700);
+
+  } catch (error) {
+    alert("Verification Error: " + error.message);
+    uploadSection.style.display = "block";
+    telemetryPipeline.style.display = "none";
+  }
+}
+
+
+window.loadDemoSample = async function(sampleId) {
+  const uploadSection = document.getElementById("upload-section");
+  const telemetryPipeline = document.getElementById("telemetry-pipeline");
+  const workspaceResults = document.getElementById("workspace-results");
+
+  uploadSection.style.display = "none";
+  telemetryPipeline.style.display = "block";
+  workspaceResults.style.display = "none";
+
+  startPipelineAnimation();
+
+  try {
+    const response = await fetch(window.getApiUrl(`/api/verify-demo/${sampleId}`), {
+      method: "POST"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Demo verification failed (${response.status})`);
+    }
+
+    const caseData = await response.json();
+    completePipelineAnimation(caseData);
+
+    setTimeout(() => {
+      renderCaseResults(caseData);
+    }, 700);
+  } catch (error) {
+    alert("Demo Error: " + error.message);
+    uploadSection.style.display = "block";
+    telemetryPipeline.style.display = "none";
+  }
+};
+
+
+async function loadExistingCase(caseId) {
+  try {
+    const res = await fetch(window.getApiUrl(`/api/cases/${caseId}`));
+    if (!res.ok) throw new Error("Case not found");
+    const caseData = await res.json();
+    document.getElementById("upload-section").style.display = "none";
+    document.getElementById("telemetry-pipeline").style.display = "none";
+    renderCaseResults(caseData);
+  } catch (e) {
+    console.error("Failed to load case:", e);
+  }
+}
+
+
+let animInterval = null;
+function startPipelineAnimation() {
+  const nodes = document.querySelectorAll(".pipeline-node");
+  nodes.forEach(n => {
+    n.className = "pipeline-node";
+    const sp = n.querySelector(".node-spinner");
+    if (sp) sp.remove();
+  });
+
+  let current = 0;
+  if (animInterval) clearInterval(animInterval);
+
+  nodes[0].classList.add("active");
+  const spin = document.createElement("div");
+  spin.className = "node-spinner";
+  nodes[0].appendChild(spin);
+
+  animInterval = setInterval(() => {
+    if (current < 7) {
+      nodes[current].classList.remove("active");
+      nodes[current].classList.add("passed");
+      const sp = nodes[current].querySelector(".node-spinner");
+      if (sp) sp.remove();
+
+      current++;
+      nodes[current].classList.add("active");
+      const nextSpin = document.createElement("div");
+      nextSpin.className = "node-spinner";
+      nodes[current].appendChild(nextSpin);
+    }
+  }, 400);
+}
+
+
+function completePipelineAnimation(caseData) {
+  if (animInterval) clearInterval(animInterval);
+  const nodes = document.querySelectorAll(".pipeline-node");
+  const trail = caseData.evidence_trail || [];
+
+  nodes.forEach((node, idx) => {
+    node.className = "pipeline-node";
+    const sp = node.querySelector(".node-spinner");
+    if (sp) sp.remove();
+
+    const stageStatus = trail[idx] ? trail[idx].status.toLowerCase() : "passed";
+    node.classList.add(stageStatus);
+  });
+
+  const badge = document.getElementById("pipeline-status-badge");
+  if (badge) {
+    badge.textContent = "VERIFICATION COMPLETE";
+    badge.style.color = "#10b981";
+    badge.style.borderColor = "rgba(16, 185, 129, 0.4)";
+  }
+}
+
+
+function renderCaseResults(caseData) {
+  const workspaceResults = document.getElementById("workspace-results");
+  workspaceResults.style.display = "block";
+
+  const risk = caseData.risk_assessment || {};
+  const score = risk.score || 0;
+  const factors = risk.factors || {};
+  const local = caseData.local_forensics || {};
+  const hashes = local.hashes || {};
+  const ela = local.ela || {};
+
+  // Case meta
+  document.getElementById("display-case-id").textContent = `CASE: ${caseData.case_id}`;
+  document.getElementById("display-timestamp").textContent = caseData.created_at;
+  document.getElementById("display-verdict-title").textContent = risk.badge || "ANALYZED";
+  document.getElementById("display-verdict-title").style.color = risk.color || "#06b6d4";
+  document.getElementById("display-recommendation").textContent = risk.recommendation || "";
+
+  // Verdict banner accent border
+  const banner = document.getElementById("verdict-banner");
+  if (banner) {
+    banner.style.borderLeft = `6px solid ${risk.color || "#06b6d4"}`;
+  }
+
+  // Gauge animation (circumference is 2 * PI * 42 = 263.89)
+  const circle = document.getElementById("gauge-circle");
+  const scoreNum = document.getElementById("display-score-num");
+  if (circle) {
+    circle.style.stroke = risk.color || "#06b6d4";
+    const offset = 264 - (264 * (score / 100));
+    setTimeout(() => {
+      circle.style.strokeDashoffset = offset;
+    }, 100);
+  }
+  if (scoreNum) {
+    scoreNum.textContent = score;
+    scoreNum.style.color = risk.color || "#06b6d4";
+  }
+
+  // Factor breakdown
+  setBar("meta", factors.metadata_risk || 0, 30);
+  setBar("ela", factors.ela_compression_risk || 0, 25);
+  setBar("struct", factors.container_structure_risk || 0, 20);
+  setBar("neural", factors.neural_ai_risk || 0, 25);
+
+  // Hashes
+  document.getElementById("hash-sha256").textContent = hashes.sha256 || "N/A";
+  document.getElementById("hash-md5").textContent = hashes.md5 || "N/A";
+
+  // PDF Download Link
+  const btnPdf = document.getElementById("btn-download-pdf");
+  if (btnPdf) {
+    btnPdf.href = window.getApiUrl(`/api/cases/${caseData.case_id}/report.pdf`);
+  }
+
+  // Images setup
+  const isImage = local.file_type === "image";
+  const origUrl = window.getAssetUrl(caseData.file_url);
+  const elaUrl = window.getAssetUrl(ela.ela_image_url || origUrl);
+
+  const sliderBox = document.getElementById("slider-box");
+  const singleImg = document.getElementById("single-view-img");
+  const sliderOrig = document.getElementById("slider-orig-img");
+  const sliderEla = document.getElementById("slider-ela-img");
+
+  if (isImage && ela.ela_performed) {
+    sliderBox.style.display = "block";
+    singleImg.style.display = "none";
+    sliderOrig.src = origUrl;
+    sliderEla.src = elaUrl;
+    document.getElementById("slider-range").value = 50;
+    updateSlider(50);
+  } else {
+    // Non-image or PDF
+    sliderBox.style.display = "none";
+    singleImg.style.display = "block";
+    singleImg.src = isImage ? origUrl : "pdf-placeholder.svg";
+  }
+
+  // Evidence Trail Accordion
+  renderTrailAccordion(caseData.evidence_trail || []);
+
+  // Writeup
+  const writeupBox = document.getElementById("writeup-content");
+  if (writeupBox) {
+    writeupBox.textContent = caseData.writeup || "No write-up generated.";
+  }
+
+  // Smooth scroll to results
+  workspaceResults.scrollIntoView({ behavior: "smooth" });
+}
+
+
+function setBar(id, val, max) {
+  const numEl = document.getElementById(`score-${id}`);
+  const fillEl = document.getElementById(`bar-${id}`);
+  if (numEl) numEl.textContent = `${val} / ${max}`;
+  if (fillEl) {
+    const pct = Math.min(100, Math.round((val / max) * 100));
+    fillEl.style.width = `${pct}%`;
+  }
+}
+
+
+function renderTrailAccordion(trail) {
+  const container = document.getElementById("trail-accordion-list");
+  if (!container) return;
+  container.innerHTML = "";
+
+  trail.forEach((item, idx) => {
+    const statusLower = (item.status || "passed").toLowerCase();
+    const itemEl = document.createElement("div");
+    itemEl.className = "trail-item";
+
+    const isFirst = idx === 0;
+
+    itemEl.innerHTML = `
+      <div class="trail-header" data-stage="${item.stage}">
+        <div class="trail-title-group">
+          <span class="stage-badge">STAGE 0${item.stage}</span>
+          <strong style="font-size: 0.92rem;">${item.name}</strong>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span class="stage-status-pill status-${statusLower}">${item.status}</span>
+          <span style="color: var(--text-muted); font-size: 0.8rem;">▼</span>
+        </div>
+      </div>
+      <div class="trail-body ${isFirst ? 'open' : ''}">
+        <p style="font-size: 0.88rem; color: #e2e8f0; margin-bottom: 0.75rem; font-weight: 500;">
+          ${item.summary}
+        </p>
+        <ul class="trail-details-list">
+          ${(item.details || []).map(d => `<li><span>▸</span><span>${d}</span></li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+    const header = itemEl.querySelector(".trail-header");
+    const body = itemEl.querySelector(".trail-body");
+    header.addEventListener("click", () => {
+      body.classList.toggle("open");
+    });
+
+    container.appendChild(itemEl);
+  });
+}
+
+
+function setupViewerTabs() {
+  const tabSplit = document.getElementById("tab-split");
+  const tabOrig = document.getElementById("tab-original");
+  const tabEla = document.getElementById("tab-ela");
+
+  const sliderBox = document.getElementById("slider-box");
+  const singleImg = document.getElementById("single-view-img");
+  const sliderOrig = document.getElementById("slider-orig-img");
+  const sliderEla = document.getElementById("slider-ela-img");
+
+  if (!tabSplit) return;
+
+  const setActive = (activeTab) => {
+    [tabSplit, tabOrig, tabEla].forEach(t => t.classList.remove("active"));
+    activeTab.classList.add("active");
+  };
+
+  tabSplit.addEventListener("click", () => {
+    setActive(tabSplit);
+    sliderBox.style.display = "block";
+    singleImg.style.display = "none";
+    updateSlider(document.getElementById("slider-range").value);
+  });
+
+  tabOrig.addEventListener("click", () => {
+    setActive(tabOrig);
+    sliderBox.style.display = "none";
+    singleImg.style.display = "block";
+    singleImg.src = sliderOrig.src;
+  });
+
+  tabEla.addEventListener("click", () => {
+    setActive(tabEla);
+    sliderBox.style.display = "none";
+    singleImg.style.display = "block";
+    singleImg.src = sliderEla.src;
+  });
+}
+
+
+function setupSplitSlider() {
+  const range = document.getElementById("slider-range");
+  if (range) {
+    range.addEventListener("input", (e) => {
+      updateSlider(e.target.value);
+    });
+  }
+}
+
+
+function updateSlider(val) {
+  const overlay = document.getElementById("slider-overlay");
+  const handle = document.getElementById("slider-handle");
+  if (overlay && handle) {
+    overlay.style.width = `${val}%`;
+    handle.style.left = `${val}%`;
+  }
+}
