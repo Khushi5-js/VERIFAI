@@ -164,7 +164,7 @@ percentage probability that a file is fake.
 ### Frontend
 - HTML5
 - CSS3
-- Vanilla JavaScript
+- JavaScript
 ### Backend
 - Python
 - FastAPI
